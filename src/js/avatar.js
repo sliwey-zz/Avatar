@@ -3,45 +3,72 @@ var target = document.getElementById("target"),
     canvas = document.getElementById("canvas"),
     ctx = canvas.getContext("2d");
 
-
 target.addEventListener("click", function() {
     input.click();
-})
+}, false);
+
+target.addEventListener("dragenter", function(event) {
+    var types = event.dataTransfer.types;
+
+    //Convert ArrayLike to Array.
+    types = Array.prototype.slice.call(types);
+
+    if (types.indexOf("Files") !== -1) {
+        this.classList.add("active");
+    }
+
+}, false);
+
+target.addEventListener("dragover", function(event) {
+    event.preventDefault();
+}, false);
+
+target.addEventListener("dragleave", function(event) {
+    this.classList.remove("active");
+}, false);
+
+
+target.addEventListener("drop", function(event) {
+    var file = event.dataTransfer.files[0];
+
+    pixelate(file);
+
+    event.preventDefault();
+}, false);
 
 input.addEventListener("change", function() {
     var file = this.files[0];
+    pixelate(file);
+}, false);
 
-    pixelate(window.URL.createObjectURL(file));
-})
-
-function pixelate(path) {
+function pixelate(file) {
     var image = new Image();
 
-    image.src = path;
+    image.src = window.URL.createObjectURL(file);
 
     image.onload = function() {
         ctx.drawImage(image, 0, 0, 200, 200);
 
-        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        var pixels = imageData.data;
+        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
+            pixels = imageData.data,
+            rows = 20,
+            cols = 20,
+            cellWidth = imageData.width / cols,
+            cellHeight = imageData.height / rows,
+            i,j,x,y,pos,r,g,b;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        var rows = 20;
-        var cols = 20;
-        var cellWidth = imageData.width / cols;
-        var cellHeight = imageData.height / rows;
+        for (i = 0; i < rows; i++) {
+            for (j = 0; j < cols; j++) {
+                x = ~~((cellWidth * j) + (cellWidth / 2));
+                y = ~~((cellHeight * i) + (cellHeight / 2));
 
-        for (var i = 0; i < rows; i++) {
-            for (var j = 0; j < cols; j++) {
-                var x = ~~((cellWidth * j) + (cellWidth / 2));
-                var y = ~~((cellHeight * i) + (cellHeight / 2));
+                pos = x * 4 + ~~(y * imageData.width * 4);
 
-                var pos = x * 4 + ~~(y * imageData.width * 4);
-
-                var r = pixels[pos];
-                var g = pixels[pos + 1];
-                var b = pixels[pos + 2];
+                r = pixels[pos];
+                g = pixels[pos + 1];
+                b = pixels[pos + 2];
 
                 ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
                 ctx.fillRect(cellWidth * j, cellHeight * i, cellWidth, cellHeight);
@@ -50,5 +77,7 @@ function pixelate(path) {
 
         target.style.visibility = "hidden";
         canvas.style.visibility = "visible";
+
+        window.URL.revokeObjectURL(file);
     }
 }

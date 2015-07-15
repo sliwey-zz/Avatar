@@ -25,7 +25,7 @@ canvas{
     width: 200px;
     height: 200px;
     margin: 0 auto;
-    border: 5px solid tomato;
+    border: 5px solid #ccc;
     border-radius: 20px;
     cursor: pointer;
 }
@@ -37,7 +37,7 @@ canvas{
     position: absolute;
     left: 75px;
     top: 95px;
-    background: tomato;
+    background: #ccc;
 }
 #target:after{
     content: "";
@@ -47,7 +47,13 @@ canvas{
     position: absolute;
     left: 95px;
     top: 75px;
-    background: tomato;
+    background: #ccc;
+}
+#target.active{
+    border-color: #7ae4a7;
+}
+#target.active:before,#target.active:after{
+    background: #7ae4a7;
 }
 #file{
     display: none;
