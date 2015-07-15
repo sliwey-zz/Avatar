@@ -1,0 +1,54 @@
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+canvas{
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    margin-left: -100px;
+    visibility: hidden;
+}
+.wrap{
+    position: relative;
+    margin-top: 20px;
+}
+#target{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    border: 5px solid tomato;
+    border-radius: 20px;
+    cursor: pointer;
+}
+#target:before{
+    content: "";
+    display: block;
+    width: 50px;
+    height: 10px;
+    position: absolute;
+    left: 75px;
+    top: 95px;
+    background: tomato;
+}
+#target:after{
+    content: "";
+    display: block;
+    width: 10px;
+    height: 50px;
+    position: absolute;
+    left: 95px;
+    top: 75px;
+    background: tomato;
+}
+#file{
+    display: none;
+}
