@@ -58,3 +58,14 @@ canvas{
 #file{
     display: none;
 }
+.avatar-btn-group{
+    margin-top: 35px;
+    text-align: center;
+}
+.avatar-btn{
+    padding: 3px 5px;
+    background: #aaa;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
