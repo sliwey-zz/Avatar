@@ -69,3 +69,9 @@ canvas{
     border-radius: 5px;
     cursor: pointer;
 }
+.avatar-btn.select{
+    background: #66b688;
+}
+.avatar-btn:hover{
+    background: #7ae4a7;
+}
